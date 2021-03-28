@@ -4,7 +4,7 @@ require("dotenv").config();
 const fetch = require("node-fetch");
 const Discord = require('discord.js');
 const client = new Discord.Client();
-//channel = ("699717551319678989");
+// the channel ID = ("699717551319678989");
 
 client.login(process.env.BOTTOKEN);
 
