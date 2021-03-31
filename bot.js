@@ -4,7 +4,7 @@ require("dotenv").config();
 const fetch = require("node-fetch");
 const Discord = require('discord.js');
 const client = new Discord.Client();
-// the channel ID is = ("699717551319678989");
+
 
 client.login(process.env.BOTTOKEN);
 
@@ -17,14 +17,20 @@ function readyDiscord() {
 
 client.on("message", gifMsg);
 
-async function gifMsg(msg) {
-    if (msg.content === "!gif") {
-        msg.channel.send("here!")
+async function gifMsg(message) {
+    let tokens = message.content.split(" ");
+    
+    if (tokens[0] === "!gif") {
+        let keywords = "random";
 
-        let url =`https://g.tenor.com/v1/search?q=dukebot&key=${process.env.TENORKEY}&limit=8`
+        if (tokens.length > 1) {
+            keywords = tokens.slice(1, tokens.length).join(" ");
+        }
+        let url =`https://g.tenor.com/v1/search?q=${keywords}&key=${process.env.TENORKEY}&limit=8`
         let response = await fetch(url);
         let json = await response.json();
-        console.log(json);
-        msg.channel.send(json.results[0].url);
+        const index = Math.floor(Math.random()* json.results.length)
+        message.channel.send(json.results[index].url);
     }
+
 };
